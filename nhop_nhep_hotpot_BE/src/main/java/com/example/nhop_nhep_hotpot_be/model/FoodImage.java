@@ -1,19 +1,21 @@
 package com.example.nhop_nhep_hotpot_be.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "food_img")
 public class FoodImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    private String url;
     @ManyToOne
-    @JsonManagedReference
-    @JoinColumn(columnDefinition = "id")
+    @JoinColumn(name = "food_id")
+    @JsonBackReference
     private Food food;
 
     public FoodImage() {
@@ -27,12 +29,12 @@ public class FoodImage {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUrl() {
+        return url;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Food getFood() {

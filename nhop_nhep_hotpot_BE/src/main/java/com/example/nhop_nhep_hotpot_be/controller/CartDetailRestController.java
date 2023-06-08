@@ -25,9 +25,9 @@ import java.util.Map;
 public class CartDetailRestController {
     @Autowired
     private ICartDetailService cartDetailService;
-
-    public ResponseEntity<List<CartDetailDTO>> listAll() {
-        List<CartDetailDTO> cartDetailDTOS = cartDetailService.findAll();
+@GetMapping("")
+    public ResponseEntity<List<CartDetailDTO>> listAll(@RequestParam (required = false, defaultValue = "") String customerName) {
+        List<CartDetailDTO> cartDetailDTOS = cartDetailService.findAll(customerName);
         if (cartDetailDTOS.isEmpty()) {
             return new ResponseEntity<> (cartDetailDTOS, HttpStatus.NO_CONTENT);
         }
@@ -47,9 +47,9 @@ public class CartDetailRestController {
 
     @PostMapping("")
     public ResponseEntity<?> createInvoiceDetail(@Valid @RequestBody CartDetailDTO cartDetailDTO,
-                                                 BindingResult bindingResult) {
+                                                 BindingResult bindingResult,@RequestParam(required = false,defaultValue = "") String customerName) {
         if (!bindingResult.hasErrors()) {
-            String msg = cartDetailService.save(cartDetailDTO);
+            String msg = cartDetailService.save(cartDetailDTO,customerName);
             if (!msg.equals("")) {
                 return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
             } else {

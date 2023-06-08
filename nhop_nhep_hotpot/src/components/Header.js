@@ -1,9 +1,14 @@
-import {useNavigate} from "react-router";
-import {useState} from "react";
-import {NavLink} from "react-router-dom";
+import { useNavigate} from "react-router";
+import React, {useEffect, useState} from "react";
+import {Link, NavLink} from "react-router-dom";
+import {useIsActive} from "../config/isAction";
+import {useDispatch, useSelector} from "react-redux";
+import {showUserDetailAction} from "../redux/action/UserDetail/userDetailAction";
 
 export default function Header() {
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("roles");
@@ -11,14 +16,13 @@ export default function Header() {
         localStorage.removeItem("username");
         navigate("/login");
     };
-
     const name = localStorage.getItem("name");
     const token = localStorage.getItem("token");
-
-    const [foodFilter, setFoodFilter] = useState({
-        page: 0,
-        name: "",
-    });
+    const userDetail = useSelector((state) => state.userDetail);
+    const cartDetails = useSelector((state) => state.cartDetails);
+    useEffect(()=>{
+        dispatch(showUserDetailAction())
+    },[dispatch])
 
     return (
         <>
@@ -26,12 +30,11 @@ export default function Header() {
                 <div className="bg-box">
                     <img src="https://images.pexels.com/photos/3997609/pexels-photo-3997609.jpeg?cs=srgb&dl=pexels-gonzalo-guzman-3997609.jpg&fm=jpg" alt="" />
                 </div>
-                {/* header section strats */}
                 <header className="header_section">
                     <div className="container">
                         <nav className="navbar navbar-expand-lg custom_nav-container ">
                             <a className="navbar-brand" href="public/index.html">
-                                <span style={{ color: "#d39e00" }}>Lẩu Nướng Nhóp Nhép</span>
+                                <span style={{ color: "white" }}>Lẩu Nướng Nhóp Nhép</span>
                             </a>
                             <button
                                 className="navbar-toggler"
@@ -46,35 +49,73 @@ export default function Header() {
                             </button>
                             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul className="navbar-nav  mx-auto ">
-                                    <li className="nav-item active">
-                                        <a className="nav-link" href="Home.html">
+                                    <li className="nav-item">
+                                        <Link to={'/'} className="nav-link" >
                                             Trang chủ <span className="sr-only"></span>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="">
+                                        <Link to={'/'} className="nav-link">
                                             Thực đơn
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="">
+                                        <Link to={'/'} className="nav-link">
                                             Giới thiệu
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="">
-                                            Gọi món
-                                        </a>
+                                        <Link  to={'/cart'} className="nav-link">
+                                            <i className="bi bi-cart"></i>
+                                            <span className="cart-badge">{cartDetails.length}</span>
+                                        </Link>
                                     </li>
+
                                 </ul>
                                 <div className="user_option">
                                     {
                                         token===null ? <a href="" className="user_link">
                                             <NavLink to={'/login'} className="bi bi-person-fill " aria-hidden="true" />
                                         </a> :
-                                            <a href="" className="user_link">
-                                            <button onClick={handleLogout} className="bi bi-door-open-fill" aria-hidden="true" />
-                                        </a>
+                                            <div className="dropdown nav-item">
+                                                <a
+                                                    className="dropdown-toggle fs-5 text-center"
+                                                    type="button"
+                                                    data-bs-toggle="dropdown"
+                                                    style={{ textDecoration: "none", width: "100px" }}
+                                                >
+                                                    <img
+                                                        src={userDetail?.avatar}
+                                                        className="rounded-circle"
+                                                        width="40%"
+                                                        height="40px"
+                                                        alt="avatar"
+                                                    />
+                                                </a>
+                                                <ul className="dropdown-menu">
+                                                    <li>
+                                                        <Link to={"/cart-detail"} className="dropdown-item">
+                                                            Đơn đã mua
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <hr className="dropdown-divider" />
+                                                    </li>
+                                                    <li>
+                                                        <Link to={'/profile'} className="dropdown-item">
+                                                            Thông tin cá nhân
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <hr className="dropdown-divider" />
+                                                    </li>
+                                                    <li>
+                                                        <a onClick={handleLogout} className="dropdown-item" href="#">
+                                                            Đăng xuất
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                     }
 
                                     <a className="cart_link" href="#">
@@ -98,9 +139,6 @@ export default function Header() {
                                             <i className="fa fa-search" aria-hidden="true" />
                                         </button>
                                     </form>
-                                    <a href="" className="order_online" style={{ padding: "6px 13px" }}>
-                                        Đặt Bàn
-                                    </a>
                                 </div>
                             </div>
                         </nav>
@@ -115,7 +153,7 @@ export default function Header() {
                                         <div className="col-md-7 col-lg-6 ">
                                             <div className="detail-box">
                                                 <h1>Lẩu Nướng Nhóp Nhép</h1>
-                                                <p>
+                                                <p style={{ color: "white", fontFamily: "Arial, sans-serif", fontSize: "1.2rem",fontWeight: "bold" }}>
                                                     Món ăn như thế nào là món ăn ngon? Có người nghĩ, một món ăn
                                                     ngon đầu tiên là phải đẹp, chỉ khi đẹp mới cảm thấy thích,
                                                     mới có ham muốn ăn món ăn đó. Nhưng với người khác, một món
@@ -127,73 +165,11 @@ export default function Header() {
                                                     lời kích lệ cho người nấu ăn để họ vui hơn và dốc sức nấu ăn
                                                     ngon hơn phải không?
                                                 </p>
-                                                <div className="btn-box">
-                                                    <a href="" className="btn1"></a>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="carousel-item ">
-                                <div className="container ">
-                                    <div className="row">
-                                        <div className="col-md-7 col-lg-6 ">
-                                            <div className="detail-box">
-                                                <h1>Nhóp Nhép Lẩu Nướng</h1>
-                                                <p>
-                                                    1. Thà ăn một miếng nghé non - còn hơn ăn cả một con trâu
-                                                    già 2. Đam mê ẩm thực - tích cực giảm cân 3. Yêu là phải
-                                                    nói, đói là phải ăn 4. Tình là gì? Là đồ ăn chứ không phải
-                                                    anh. 5. Ăn mà ngại - chỉ hại bao tử mà thôi 6. Có công ăn
-                                                    uống - có ngày lên cân 7. Độc lập tự do - miếng nào to thì
-                                                    gắp 8. Ăn chay sống khỏe - tươi trẻ mỗi ngày 9. Ăn là mê -
-                                                    chê không tính tiền 10. Rẻ như bèo, nghèo cũng có tiền mua
-                                                </p>
-                                                <div className="btn-box">
-                                                    <a href="" className="btn1"></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="carousel-item">
-                                <div className="container ">
-                                    <div className="row">
-                                        <div className="col-md-7 col-lg-6 ">
-                                            <div className="detail-box">
-                                                <h1>Nhóp Nhép Lẩu Nướng</h1>
-                                                <p>
-                                                    Ăn được, uống được là phúc. Với nhiều người được ăn món mình
-                                                    thích, uống nước mà mình yêu là điều tuyệt nhất với họ. Họ
-                                                    luôn lạc quan suy nghĩ rằng: "đâu biết ngày mai ra sao mà
-                                                    chúng ta phải đau khổ, làm điều mà mình không thích". Không
-                                                    nói các bạn cũng biết, sở thích của họ là được ăn uống, được
-                                                    đăng những stt về ăn uống lên MXH để lưu lại những kỷ niệm
-                                                    quý giá. Và dưới đây là những Slogan về ăn uống, những lời
-                                                    hay ý đẹp về ăn uống mà Khánh Linh tìm hiểu được trên
-                                                    Internet.
-                                                </p>
-                                                <div className="btn-box">
-                                                    <a href="" className="btn1"></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="container">
-                            <ol className="carousel-indicators">
-                                <li
-                                    data-target="#customCarousel1"
-                                    data-slide-to={0}
-                                    className="active"
-                                />
-                                <li data-target="#customCarousel1" data-slide-to={1} />
-                                <li data-target="#customCarousel1" data-slide-to={2} />
-                            </ol>
                         </div>
                     </div>
                 </section>

@@ -3,7 +3,7 @@ package com.example.nhop_nhep_hotpot_be.sercurity;
 
 
 import com.example.nhop_nhep_hotpot_be.model.user.User;
-import com.example.nhop_nhep_hotpot_be.repository.IUserRepository;
+import com.example.nhop_nhep_hotpot_be.repository.user.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

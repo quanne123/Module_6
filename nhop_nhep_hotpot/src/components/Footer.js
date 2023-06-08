@@ -33,23 +33,6 @@ return(
                             suy nghĩ rằng: "đâu biết ngày mai ra sao mà chúng ta phải đau khổ,
                             làm điều mà mình không thích".
                         </p>
-                        <div className="footer_social">
-                            <a href="">
-                                <i className="fa fa-facebook" aria-hidden="true" />
-                            </a>
-                            <a href="">
-                                <i className="fa fa-twitter" aria-hidden="true" />
-                            </a>
-                            <a href="">
-                                <i className="fa fa-linkedin" aria-hidden="true" />
-                            </a>
-                            <a href="">
-                                <i className="fa fa-instagram" aria-hidden="true" />
-                            </a>
-                            <a href="">
-                                <i className="fa fa-pinterest" aria-hidden="true" />
-                            </a>
-                        </div>
                     </div>
                 </div>
                 <div className="col-md-4 footer-col">
@@ -60,14 +43,11 @@ return(
             </div>
             <div className="footer-info">
                 <p>
-                    © <span id="" /> All Rights Reserved By
-                    <a href="https://html.design/">Free Html Templates</a>
+                    © <span id="" /> Độc quyền tại 45 Hải Phòng
                     <br />
                     <br />
-                    © <span id="" /> Distributed By
-                    <a href="https://themewagon.com/" target="_blank">
-                        ThemeWagon
-                    </a>
+                    © <span id="" /> Được thành lập bởi QuanTVA
+
                 </p>
             </div>
         </div>

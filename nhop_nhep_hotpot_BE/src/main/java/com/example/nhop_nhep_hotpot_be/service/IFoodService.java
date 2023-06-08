@@ -10,4 +10,5 @@ public interface IFoodService {
     FoodDTO findById (Integer id);
 
     Page<FoodDTO> findAll(Pageable pageable);
+    Page<FoodDTO> findWithFoodType(Integer foodTypeId, Pageable pageable );
 }

@@ -1,6 +1,7 @@
 package com.example.nhop_nhep_hotpot_be.service;
 
 import com.example.nhop_nhep_hotpot_be.model.user.User;
+import com.example.nhop_nhep_hotpot_be.service.user.IUserService;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorConfig;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;

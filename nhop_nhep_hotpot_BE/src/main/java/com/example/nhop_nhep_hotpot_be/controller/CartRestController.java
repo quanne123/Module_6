@@ -24,4 +24,13 @@ public class CartRestController {
         cartDetailService.resetCount();
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCart (@PathVariable Integer id) {
+        if (id == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        cartService.deletePermanent(id);
+        cartDetailService.resetCount();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

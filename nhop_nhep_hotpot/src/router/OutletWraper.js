@@ -8,7 +8,7 @@ function OutletWrapper() {
     return (
         <>
             <Header />
-            <Scroll />
+            {/*<Scroll />*/}
             <Outlet />
             <Footer />
         </>

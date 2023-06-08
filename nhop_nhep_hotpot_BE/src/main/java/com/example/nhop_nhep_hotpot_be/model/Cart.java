@@ -17,15 +17,9 @@ public class Cart {
     private Double total;
     private String customerName;
     private String paymentDate;
-
     @OneToMany (mappedBy = "cart")
     @JsonManagedReference
     private Set<CartDetail> cartDetails;
-
-
-    @ManyToOne
-    @JoinColumn(columnDefinition = "id")
-    private User user;
 
     public Cart() {
     }
@@ -70,22 +64,6 @@ public class Cart {
         this.customerName = customerName;
     }
 
-    public String getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(String paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Set<CartDetail> getCartDetails() {
         return cartDetails;
     }
@@ -93,5 +71,12 @@ public class Cart {
     public void setCartDetails(Set<CartDetail> cartDetails) {
         this.cartDetails = cartDetails;
     }
-}
 
+    public String getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+}

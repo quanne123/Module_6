@@ -3,15 +3,18 @@ package com.example.nhop_nhep_hotpot_be.controller;
 import com.example.nhop_nhep_hotpot_be.dto.MailDTO;
 import com.example.nhop_nhep_hotpot_be.dto.OtpDTO;
 import com.example.nhop_nhep_hotpot_be.dto.request.ChangePasswordRequest;
+import com.example.nhop_nhep_hotpot_be.dto.request.RegisterForm;
 import com.example.nhop_nhep_hotpot_be.dto.request.ResetPasswordRequest;
 import com.example.nhop_nhep_hotpot_be.dto.request.SignInForm;
 import com.example.nhop_nhep_hotpot_be.dto.response.JwtResponse;
 import com.example.nhop_nhep_hotpot_be.dto.response.ResponseMessage;
+import com.example.nhop_nhep_hotpot_be.model.user.Role;
 import com.example.nhop_nhep_hotpot_be.model.user.User;
 import com.example.nhop_nhep_hotpot_be.sercurity.JwtTokenProvider;
 import com.example.nhop_nhep_hotpot_be.sercurity.UserPrinciple;
 import com.example.nhop_nhep_hotpot_be.service.IEmailService;
-import com.example.nhop_nhep_hotpot_be.service.IUserService;
+import com.example.nhop_nhep_hotpot_be.service.user.IRoleService;
+import com.example.nhop_nhep_hotpot_be.service.user.IUserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +25,30 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin("*")
 public class AuthRestController {
 
     @Autowired
+    private IRoleService iRoleService;
+    @Autowired
     private IUserService iUserService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private IEmailService iEmailService;
 
@@ -67,6 +74,34 @@ public class AuthRestController {
             UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
             return ResponseEntity.ok(new JwtResponse(token, userPrinciple.getUsername(), userPrinciple.getAvatar(), userPrinciple.getAuthorities(),userPrinciple.getName()));
         }
+    }
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterForm registerForm){
+
+        if(Boolean.TRUE.equals(iUserService.existsByUsername(registerForm.getUsername()))) {
+            return new ResponseEntity<>("Tên đăng ký đã tồn tại!.", HttpStatus.BAD_REQUEST);
+        }
+
+        if(Boolean.TRUE.equals(iUserService.existsByEmail(registerForm.getEmail()))) {
+            return new ResponseEntity<>("Email đã tồn tại!.", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = new User();
+        user.setName(registerForm.getName());
+        user.setUserName(registerForm.getUsername());
+        user.setEmail(registerForm.getEmail());
+        user.setGender(registerForm.isGender());
+        user.setAddress(registerForm.getAddress());
+        user.setDateOfBirth(registerForm.getDateOfBirth());
+        user.setPhoneNumber(registerForm.getPhoneNumber());
+        user.setPassword(passwordEncoder.encode(registerForm.getPassword()));
+        Set<Role> roles = new HashSet<>();
+        Role userRole = iRoleService.findByName("ROLE_USER").get();
+        roles.add(userRole);
+        user.setRoles(roles);
+        user.setAvatar("https://media.istockphoto.com/id/1131164548/vector/avatar-5.jpg?s=612x612&w=0&k=20&c=CK49ShLJwDxE4kiroCR42kimTuuhvuo2FH5y_6aSgEo=");
+        iUserService.save(user);
+        return new ResponseEntity<>("Đăng ký thành công!.", HttpStatus.CREATED);
     }
 
 

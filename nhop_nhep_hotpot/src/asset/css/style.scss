@@ -535,7 +535,9 @@ a:focus {
 
     .options {
       display: flex;
+      align-items: center;
       justify-content: space-between;
+      gap: 10px;
 
       a {
         width: 40px;

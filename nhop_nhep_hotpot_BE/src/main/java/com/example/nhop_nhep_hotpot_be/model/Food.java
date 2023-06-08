@@ -1,10 +1,11 @@
 package com.example.nhop_nhep_hotpot_be.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.util.HashSet;
+
 import java.util.Set;
 
 @Entity
@@ -22,16 +23,16 @@ public class Food {
     private Integer quantity;
 
     @ManyToOne
-    @JoinColumn(columnDefinition = "id")
+    @JoinColumn(name = "food_type_id")
     private FoodType foodType;
 
-    @JsonBackReference
     @OneToMany(mappedBy = "food")
-    private Set<FoodImage> foodImageSet = new HashSet<>();
+    @JsonManagedReference
+    private Set<FoodImage> foodImageSet ;
 
     @JsonBackReference
     @OneToMany(mappedBy = "food")
-    private Set<CartDetail> oderDetails = new HashSet<>();
+    private Set<CartDetail> oderDetails;
 
     public Food() {
     }
@@ -84,11 +85,11 @@ public class Food {
         this.foodType = foodType;
     }
 
-    public Set<FoodImage> getImageSet() {
+    public Set<FoodImage> getFoodImageSet() {
         return foodImageSet;
     }
 
-    public void setImageSet(Set<FoodImage> foodImageSet) {
+    public void setFoodImageSet(Set<FoodImage> foodImageSet) {
         this.foodImageSet = foodImageSet;
     }
 

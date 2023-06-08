@@ -32,7 +32,7 @@ public class  User {
     private String code;
     private String name;
     @Column(columnDefinition = "BIT")
-    private String gender;
+    private boolean gender;
     @Column(name = "date_of_birth")
     private String dateOfBirth;
     @Column(columnDefinition = "TEXT")
@@ -48,9 +48,7 @@ public class  User {
     private String avatar;
     private LocalDateTime expiryTime;
     private String otpSecret;
-    @JsonBackReference
-    @OneToMany(mappedBy = "user")
-    Set<Cart> oderProducts = new HashSet<>();
+
     public User() {
     }
 
@@ -86,11 +84,11 @@ public class  User {
         this.name = name;
     }
 
-    public String getGender() {
+    public boolean getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(boolean gender) {
         this.gender = gender;
     }
 
@@ -166,11 +164,5 @@ public class  User {
         this.otpSecret = otpSecret;
     }
 
-    public Set<Cart> getOderProducts() {
-        return oderProducts;
-    }
 
-    public void setOderProducts(Set<Cart> oderProducts) {
-        this.oderProducts = oderProducts;
-    }
 }

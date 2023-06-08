@@ -55,13 +55,7 @@ public class RegisterForm {
         this.password = password;
     }
 
-    public boolean isGender() {
-        return gender;
-    }
 
-    public void setGender(boolean gender) {
-        this.gender = gender;
-    }
 
     public String getDateOfBirth() {
         return dateOfBirth;
@@ -69,6 +63,14 @@ public class RegisterForm {
 
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
     }
 
     public String getAddress() {
@@ -82,6 +84,8 @@ public class RegisterForm {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;

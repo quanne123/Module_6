@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,17 @@ public class FoodRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(foodDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/search-type")
+    public ResponseEntity<Page<FoodDTO>> searchFoodWithType(@RequestParam(required = false, defaultValue = "")
+                                                            Integer foodTypeId, @PageableDefault(size = 6) Pageable pageable
+    ) {
+    Page<FoodDTO> foodDTOPage = foodService.findWithFoodType(foodTypeId,pageable);
+    if (foodDTOPage.isEmpty()){
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    return new ResponseEntity<>(foodDTOPage,HttpStatus.OK);
     }
 }
 

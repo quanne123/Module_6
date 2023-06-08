@@ -29,7 +29,7 @@ public class VNPayService implements IVNPayService {
                     "Kính gửi Quý khách hàng: " + paymentSendEmailDTO.getCustomerName() +"" + "<br>" + "<br>" +
                     "<div style =\" font-weight:bold \"> Đơn hàng: "
                     + paymentSendEmailDTO.getCode()+ " đã được thanh toán thành công"+"</div>" + "<br>" +
-                    "Hy vọng quý khách hàng có trải nghiệm tốt khi sử dụng sản phẩm của Chavi, "
+                    "Hy vọng quý khách hàng có trải nghiệm tốt khi thưởng thức món ăn của chúng tôi, "
                     +"<br>"
                     + "<br>" +
                     "Nếu hài lòng với sản phẩm, mong quý khách tiếp tục ủng hộ chúng tôi!."
